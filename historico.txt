@@ -10,4 +10,10 @@ Este arquivo é apenas um lembrete do que foi feito para ativar o ambiente em ou
 
 4. O VS Code encontrou o arquivo requirements.txt e instalou as dependências necessárias
 
-5. Utilizei o comando "python manage.py runserver" para subir o servidor.
+5. Para ativar o venv: source .venv/bin/activate
+
+6. Pode ser necessário fazer as migrações:
+    python manage.py makemigrations
+    python manage.py migrate
+
+7. Utilizei o comando "python manage.py runserver" para subir o servidor.

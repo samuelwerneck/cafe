@@ -13,9 +13,27 @@
           <div class="card-body">
             <center>
             <h5 class="card-title">{{ produto.nome }}</h5>
-            <p class="card-text">{{ produto.descricao }}</p>
+            <p class="card-text justified">{{ produto.descricao }}</p>
+
+            R$ {{ produto.preco }}
             
+            <br/><br/>
+            <div class="row justify-content-center">
+              <div class="col-md-2">Quantidade:</div>
+                <div class="col-md-2">
+                  <select class="form-select form-select-sm" id="item-qtde">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="3">4</option>
+                    <option value="3">5</option>
+                  </select>
+                </div>
+            </div>
+
+            <br/><br/>            
             <a href="{% url 'home' %}" class="btn btn-secondary">Início</a>
+            <button type="button" value="{{ produto.id }}" class="btn btn-secondary" id="add-carrinho">Adicionar ao Carrinho</button>
 
             </center>
           </div>
@@ -25,5 +43,40 @@
         	
 
 </div>
+
+<script>
+// Verfica se o botão foi clicado
+$(document).on('click', '#add-carrinho', function(e){
+  e.preventDefault();
+  $.ajax({
+    type: 'POST',
+    url: '{% url "carrinho_add" %}', // Usando aspas duplas na URL. Aspas simples gerou erro
+    data: {
+      produto_id: $('#add-carrinho').val(),
+      produto_qtde: $('#item-qtde option:selected').text(),
+      csrfmiddlewaretoken: '{{ csrf_token }}',
+      action: 'post'
+    },
+
+    success: function(json){
+      //console.log(json)
+      document.getElementById('carrinho_numero').textContent = json.qtde
+    },
+
+    error: function(xhr, errmsg, err){
+
+    }
+
+
+
+
+  });
+
+
+})
+
+
+</script>
+
 
 {% endblock %}
