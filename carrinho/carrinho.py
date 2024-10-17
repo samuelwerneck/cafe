@@ -28,6 +28,24 @@ class Carrinho():
 
 		self.session.modified = True
 
+	def total(self):
+		# Obtem o ID dos produtos
+		produto_id = self.carrinho.keys()
+		# Procura os IDs no banco de dados
+		produtos = Produto.objects.filter(id__in=produto_id)
+		# Obtem as quantidades
+		quantidades = self.carrinho
+		# Faz a totalização do carrinho
+		total = 0
+
+		for key, value in quantidades.items():
+			key = int(key)
+			for produto in produtos:
+				if produto.id == key:
+					total = total + (produto.preco * value)
+		return total
+
+
 	def __len__(self):
 		return len(self.carrinho)
 	

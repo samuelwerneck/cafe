@@ -2,13 +2,15 @@ from django.shortcuts import render, get_object_or_404
 from .carrinho import Carrinho
 from store.models import Produto
 from django.http import JsonResponse
+from django.contrib import messages
 
 def carrinho_resumo(request):
 	# Obtem o carrinho
 	carrinho = Carrinho(request)
 	carrinho_produtos = carrinho.get_produtos
 	quantidades = carrinho.get_quantidades
-	return render(request, "carrinho_resumo.html", {"carrinho_produtos":carrinho_produtos, "quantidades":quantidades})
+	total = carrinho.total()
+	return render(request, "carrinho_resumo.html", {"carrinho_produtos":carrinho_produtos, "quantidades":quantidades, "total":total})
 
 def carrinho_add(request):
 	# Obtem o Carrinho
@@ -31,6 +33,7 @@ def carrinho_add(request):
 		# Retorna a resposta
 		# resposta = JsonResponse({'Nome do Produto: ': produto.nome})
 		resposta = JsonResponse({'qtde': carrinho_quantidade})
+		messages.success(request, ("Produto adicionado no carrinho"))
 		return resposta
 	
 
@@ -43,6 +46,7 @@ def carrinho_delete(request):
 		carrinho.delete(produto=produto_id)
 
 		resposta = JsonResponse({'produto':produto_id})
+		messages.success(request, ("Produto removido do carrinho"))
 		return resposta
 
 
@@ -57,4 +61,5 @@ def carrinho_update(request):
 		carrinho.atualizar(produto=produto_id, quantidade=produto_quantidade)
 
 		resposta = JsonResponse({'qtde':produto_quantidade})
+		messages.success(request, ("Seu carrinho foi atualizado"))
 		return resposta

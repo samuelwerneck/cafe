@@ -4,9 +4,26 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignUpForm
+from .forms import SignUpForm, UpdateUserForm
 from django import forms
 
+
+def atualiza_usuario(request):
+	if request.user.is_authenticated:
+		current_user = User.objects.get(id=request.user.id)
+		user_form = UpdateUserForm(request.POST or None, instance=current_user)
+
+		if user_form.is_valid():
+			user_form.save()
+
+			login(request, current_user)
+			messages.success(request, "Informações atualizadas")
+			return redirect('home')		
+		return render(request, "atualiza_usuario.html", {'user_form':user_form})
+	else:
+		messages.success(request, "Você precisa estar logado para acessar essa página")
+		return redirect('home')
+	
 
 def produto(request,pk):
 	produto = Produto.objects.get(id=pk)
@@ -17,8 +34,10 @@ def home(request):
 	produtos = Produto.objects.all()
 	return render(request, 'home.html', {'produtos':produtos})
 
+
 def about(request):
 	return render(request, 'about.html', {})
+
 
 def login_user(request):
 	if request.method == "POST":
@@ -41,6 +60,7 @@ def logout_user(request):
 	logout(request)
 	messages.success(request, ("You have been logged out!"))
 	return redirect('home')
+
 
 def register_user(request):
 	form = SignUpForm()
