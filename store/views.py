@@ -4,8 +4,33 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignUpForm, UpdateUserForm
+from .forms import SignUpForm, UpdateUserForm, AtualizarSenha
 from django import forms
+
+
+def atualiza_senha(request):
+	if request.user.is_authenticated:
+		current_user = request.user
+		# Preencheu o formulario
+		if request.method == 'POST':
+			form = AtualizarSenha(current_user, request.POST)
+			# O formulario é valido?
+			if form.is_valid():
+				form.save()
+				messages.success(request, "Sua nova senha foi salva. Por favor, faça login novamente")
+				#login(request, current_user)
+				return redirect('login')
+			else:
+				for error in list(form.errors.values()):
+					messages.error(request, error)
+					return redirect('atualiza_senha')
+
+		else:
+			form = AtualizarSenha(current_user)
+			return render(request, "atualiza_senha.html", {'form':form})
+	else:
+		messages.success(request, "Você precisa estar logado pra acessar esta página")
+		return redirect('home')
 
 
 def atualiza_usuario(request):

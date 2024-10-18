@@ -1,5 +1,30 @@
 from django.db import models
 import datetime
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+
+class Perfil(models.Model):
+	usuario = models.OneToOneField(User,on_delete=models.CASCADE)
+	data_modificado= models.DateTimeField(User, auto_now=True)
+	fone = models.CharField(max_length=20, blank=True)
+	endereco1 = models.CharField(max_length=200, blank=True)
+	endereco2 = models.CharField(max_length=200, blank=True)
+	cidade = models.CharField(max_length=200, blank=True)
+	estado = models.CharField(max_length=200, blank=True)
+	cep = models.CharField(max_length=200, blank=True)
+	pais = models.CharField(max_length=200, blank=True)
+
+	def __str__(self):
+		return self.usuario.username
+
+# Cria perfil para usuario
+def cria_perfil(sender, instance, created, **kwargs):
+	if created:
+		perfil_usuario = Perfil(usuario=instance)
+		perfil_usuario.save()
+
+# Automatiza o perfil
+post_save.connect(cria_perfil, sender=User)
 
 # Tipos de Produtos
 class Tipo(models.Model):
