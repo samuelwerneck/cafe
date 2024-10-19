@@ -1,11 +1,43 @@
 from django.shortcuts import render, redirect
-from .models import Produto
+from .models import Produto, Perfil
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignUpForm, UpdateUserForm, AtualizarSenha
+from .forms import SignUpForm, UpdateUserForm, AtualizarSenha, InfoUsuario_Form
 from django import forms
+from django.db.models import Q
+
+
+def busca(request):
+	# Verifica se o formulario foi preenchido
+	if request.method == "POST":
+		buscado = request.POST['buscado']
+		# Buscar produtos na base de dados
+		buscado = Produto.objects.filter(Q(nome__icontains=buscado) | Q(descricao__icontains=buscado))
+		# Testa se não encontrou nada
+		if not buscado:
+			messages.success(request, "Este produto não existe. Tente novamente")
+			return render(request, "busca.html", {})
+		else:
+			return render(request, "busca.html", {'buscado':buscado})
+	else:
+		return render(request, "busca.html", {})
+
+
+def atualiza_info(request):
+	if request.user.is_authenticated:
+		current_user = Perfil.objects.get(id=request.user.id)
+		form = InfoUsuario_Form(request.POST or None, instance=current_user)
+
+		if form.is_valid():
+			form.save()
+			messages.success(request, "Suas informações foram salvas")
+			return redirect('home')		
+		return render(request, "atualiza_info.html", {'form':form})
+	else:
+		messages.success(request, "Você precisa estar logado para acessar essa página")
+		return redirect('home')
 
 
 def atualiza_senha(request):
@@ -99,7 +131,7 @@ def register_user(request):
 			user = authenticate(username=username, password=password)
 			login(request, user)
 			messages.success(request, ("You have registered successfully"))
-			return redirect('home')
+			return redirect('atualiza_info')
 		else:
 			messages.success(request, ("Oops. Something went wrong."))
 			return redirect('register')

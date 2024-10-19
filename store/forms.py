@@ -1,6 +1,21 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 from django import forms
+from .models import Perfil
+
+class InfoUsuario_Form(forms.ModelForm):
+	fone = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Fone'}), required=False)
+	endereco1 = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Endereço 1'}), required=False)
+	endereco2 = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Endereço 2'}), required=False)
+	cidade = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Cidade'}), required=False)
+	estado = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Estado'}), required=False)
+	cep = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'CEP'}), required=False)
+	pais = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'País'}), required=False)
+
+	class Meta:
+		model = Perfil
+		fields = ('fone', 'endereco1', 'endereco2', 'cidade', 'estado', 'cep', 'pais', )
+
 
 class AtualizarSenha(SetPasswordForm):
 	class Meta:
