@@ -7,6 +7,8 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms import SignUpForm, UpdateUserForm, AtualizarSenha, InfoUsuario_Form
 from django import forms
 from django.db.models import Q
+import json
+from carrinho.carrinho import Carrinho
 
 
 def busca(request):
@@ -27,7 +29,7 @@ def busca(request):
 
 def atualiza_info(request):
 	if request.user.is_authenticated:
-		current_user = Perfil.objects.get(id=request.user.id)
+		current_user = Perfil.objects.get(usuario__id=request.user.id)
 		form = InfoUsuario_Form(request.POST or None, instance=current_user)
 
 		if form.is_valid():
@@ -103,6 +105,22 @@ def login_user(request):
 		user = authenticate(request, username=username, password=password)
 		if user is not None:
 			login(request, user)
+
+			# Recuperar um carrinho existente, se houver
+			current_user = Perfil.objects.get(usuario__id=request.user.id)
+			carrinho_existente = current_user.carrinho_salvo
+			# Converte o carrinho salvo num dicionario Python
+			if carrinho_existente:
+				# Converte usando JSON
+				carrinho_convertido = json.loads(carrinho_existente)
+				# Adicionar a sessão
+				carrinho = Carrinho(request)
+				for key,value in carrinho_convertido.items():
+					carrinho.db_add(produto=key, quantidade=value)
+
+
+
+
 			messages.success(request, ("You have been logged in"))
 			return redirect('home')
 		else:

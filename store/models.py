@@ -13,6 +13,7 @@ class Perfil(models.Model):
 	estado = models.CharField(max_length=200, blank=True)
 	cep = models.CharField(max_length=200, blank=True)
 	pais = models.CharField(max_length=200, blank=True)
+	carrinho_salvo = models.CharField(max_length=200, blank=True, null=True)
 
 	def __str__(self):
 		return self.usuario.username
