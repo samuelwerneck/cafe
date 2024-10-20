@@ -16,17 +16,23 @@
                 
                     <div class="col-md-6 offset-md-3">
                         <br/><br/>
+                        <strong>Informações de Cobrança</strong>
                         <br/><br/>  
+                        <form method="POST" action="{% url 'atualiza_info' %}">
+                            {% csrf_token %}
 
-<form method="POST" action="{% url 'atualiza_info' %}">
-    {% csrf_token %}
+                            {{ form.as_p }}  
+                            <br/><br/>
+                            <strong>Informações de Entrega</strong>
+                            <br/><br/>
+                            {{ entrega_form.as_p }}
 
-    {{ form.as_p }}  
-    <br/><br/>
-    <button type="submit" class="btn btn-secondary">
-        Atualiza informações
-    </button>
-</form>
+                            <br/><br/>
+
+                            <button type="submit" class="btn btn-secondary">
+                                Atualiza informações
+                            </button>
+                        </form>
 
 <br/><br/>
 

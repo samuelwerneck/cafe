@@ -1,0 +1,7 @@
+1. Mudar "endereco2" para "complemento
+
+2. No app 'pagamento' adequar quais campos sao obrigatorios
+
+3. Remover "pais" dos cadastros?
+
+4. Remover importações não usadas

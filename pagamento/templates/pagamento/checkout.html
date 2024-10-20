@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Checkout</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Confira os detalhes do seu pedido</p>
+                </div>
+            </div>
+        </header>
+        <br/>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+
+                    <div class="card">
+                        <div class="card-header">
+                          Resumo do Pedido
+                        </div>
+                        <div class="card-body">
+                            {% for produto in carrinho_produtos %}
+                                {{ produto.nome }}:
+                                R$ {{ produto.preco }}
+
+                                <br/>
+                                <small>Quantidade:
+                                {% for key, value in quantidades.items %}
+                                    {% if key == produto.id|slugify %}
+                                        {{ value }}
+                                    {% endif %}
+                                {% endfor%}</small>
+                                <br/><br/>
+
+                            {% endfor %}
+
+                            Total: R$ {{ total }}
+                            <br/><br/>
+                            <a href="{% url 'carrinho_resumo' %}" class="btn btn-sm btn-outline-secondary">Alterar itens</a>
+                            <br/><br/>
+
+                            
+                        </div>
+                    </div>
+                    <br/><br/>
+
+                    <div class="card">
+                        <div class="card-header">
+                          Endereço de entrega
+                        </div>
+                        <div class="card-body">
+                            {{ entrega_form.as_p }}
+
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <a href="#" class="btn btn-secondary">Ir para o Pagamento</a>
+                    <br/><br/>
+
+                </div>    
+            </div>
+        </div>
+
+{% endblock %}

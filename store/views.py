@@ -5,6 +5,8 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .forms import SignUpForm, UpdateUserForm, AtualizarSenha, InfoUsuario_Form
+from pagamento.forms import EntregaForm
+from pagamento.models import EnderecoEntrega
 from django import forms
 from django.db.models import Q
 import json
@@ -29,14 +31,22 @@ def busca(request):
 
 def atualiza_info(request):
 	if request.user.is_authenticated:
+		# Obtem o usuario atual
 		current_user = Perfil.objects.get(usuario__id=request.user.id)
+		# Obtem o endereço de entrega do usuário atual
+		entrega_user = EnderecoEntrega.objects.get(usuario__id=request.user.id)
+		
+		# Obtem o formuário do usuário
 		form = InfoUsuario_Form(request.POST or None, instance=current_user)
+		# Obtem o formulario de endereço de entrega
+		entrega_form = EntregaForm(request.POST or None, instance=entrega_user)
 
-		if form.is_valid():
+		if form.is_valid() or entrega_form.is_valid():
 			form.save()
+			entrega_form.save()
 			messages.success(request, "Suas informações foram salvas")
 			return redirect('home')		
-		return render(request, "atualiza_info.html", {'form':form})
+		return render(request, "atualiza_info.html", {'form':form, 'entrega_form':entrega_form})
 	else:
 		messages.success(request, "Você precisa estar logado para acessar essa página")
 		return redirect('home')
