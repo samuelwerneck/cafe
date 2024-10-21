@@ -37,7 +37,7 @@
 
                             Total: R$ {{ total }}
                             <br/><br/>
-                            <a href="{% url 'carrinho_resumo' %}" class="btn btn-sm btn-outline-secondary">Alterar itens</a>
+                            <a href="{% url 'carrinho_resumo' %}" class="btn btn-sm btn-outline-secondary">Alterar produtos</a>
                             <br/><br/>
 
                             
@@ -50,12 +50,16 @@
                           Endereço de entrega
                         </div>
                         <div class="card-body">
+                            <form method="POST" action="{% url 'pagamento_info' %}">
+                                {% csrf_token %}
+                            
                             {{ entrega_form.as_p }}
 
                         </div>
                     </div>
                     <br/><br/>
-                    <a href="#" class="btn btn-secondary">Ir para o Pagamento</a>
+                    <button type="submit" class="btn btn-secondary">Ir para o Pagamento</button>
+                            </form>
                     <br/><br/>
 
                 </div>    

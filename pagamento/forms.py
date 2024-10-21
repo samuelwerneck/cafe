@@ -16,3 +16,14 @@ class EntregaForm(forms.ModelForm):
         fields = ['ent_nome', 'ent_email', 'ent_endereco', 'ent_complemento', 'ent_cidade', 'ent_estado', 'ent_cep', 'ent_pais', ]
 
         exclude = ['usuario', ]
+
+
+class PagamentoForm(forms.Form):
+    cartao_nome = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Nome no Cartão'}), required=True)
+    cartao_numero = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Número do Cartão'}), required=True)
+    cartao_venc = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Vencimento'}), required=True)
+    cartao_cvv = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Código de Segurança'}), required=True)
+    cartao_endereco = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Endereço de Cobrança'}), required=True)
+    cartao_cidade = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Cidade'}), required=True)
+    cartao_estado = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Estado'}), required=True)
+    cartao_cep = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'CEP'}), required=True)
