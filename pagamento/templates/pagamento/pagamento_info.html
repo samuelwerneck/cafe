@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Pagamento</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Escolha seu método de pagamento</p>
+                </div>
+            </div>
+        </header>
+        <br/>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+
+                    <div class="card">
+                        <div class="card-header">
+                          Resumo do Pedido
+                        </div>
+                        <div class="card-body">
+                            {% for produto in carrinho_produtos %}
+                                {{ produto.nome }}:
+                                R$ {{ produto.preco }}
+
+                                <br/>
+                                <small>Quantidade:
+                                {% for key, value in quantidades.items %}
+                                    {% if key == produto.id|slugify %}
+                                        {{ value }}
+                                    {% endif %}
+                                {% endfor%}</small>
+                                <br/><br/>
+
+                            {% endfor %}
+
+                            Total: R$ {{ total }}
+                            <br/><br/>
+                            <a href="{% url 'carrinho_resumo' %}" class="btn btn-sm btn-outline-secondary">Alterar produtos</a>
+                            <br/><br/>
+
+                            
+                        </div>
+                    </div>
+                    <br/><br/>
+
+                    <div class="card">
+                        <div class="card-header">
+                          Endereço de entrega
+                        </div>
+                        <div class="card-body">
+                            
+                            Nome: {{ entrega_info.ent_nome }}<br/>
+                            E-mail: {{ entrega_info.ent_email }}<br/>
+                            Endereço: {{ entrega_info.ent_endereco }}<br/>
+                            Complemento: {{ entrega_info.ent_complemento }}<br/>
+                            Cidade: {{ entrega_info.ent_cidade }}<br/>
+                            Estado: {{ entrega_info.ent_estado }}<br/>
+                            CEP: {{ entrega_info.ent_cep }}<br/>
+                            País: {{ entrega_info.ent_pais }}<br/>
+                            <br/>
+                            <a href="{% url 'checkout' %}" class="btn btn-outline-secondary">Alterar endereço</a>
+
+                        </div>
+                    </div>
+                    <br/><br/>
+
+                    <div class="card">
+                        <div class="card-header">
+                          Informações de Pagamento
+                        </div>
+                        <div class="card-body">
+                            {{ pagamento_form.as_p }}
+                            
+                        </div>
+                    </div>
+                    <br/><br/>
+
+                    <a href="#" class="btn btn-secondary">Pagar!</a>
+                    <br/><br/>
+
+                </div>    
+            </div>
+        </div>
+
+{% endblock %}
