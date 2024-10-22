@@ -1,25 +1,124 @@
 from django.shortcuts import render, redirect
 from carrinho.carrinho import Carrinho
 from pagamento.forms import EntregaForm, PagamentoForm
-from pagamento.models import EnderecoEntrega
+from pagamento.models import EnderecoEntrega, Pedido, ItensPedido
+from django.contrib.auth.models import User
 from django.contrib import messages
+from store.models import Produto
 
-def pagamento_info(request):
+
+def processa_pedido(request):
     if request.POST:
-        # Obtem o carrinho
+        # Obtém o carrinho
         carrinho = Carrinho(request)
         carrinho_produtos = carrinho.get_produtos
         quantidades = carrinho.get_quantidades
         total = carrinho.total()
 
+        # Obtém as informações de pagamento da página anterior
+        pagamento_form = PagamentoForm(request.POST or None)
+        
+        # Obtém as dados da sessão do envio
+        minha_entrega = request.session.get('minha_entrega')
+        
+        # Obtém informações do pedido
+        nome = minha_entrega['ent_nome']
+        email = minha_entrega['ent_email']
+        endereco_entrega = f"{minha_entrega['ent_endereco']}\n{minha_entrega['ent_complemento']}\n{minha_entrega['ent_cidade']}\n{minha_entrega['ent_estado']}\n{minha_entrega['ent_cep']}"
+        valor_pago = total
+
+        # Criando o pedido
+        if request.user.is_authenticated:
+            user = request.user
+            pedido = Pedido(usuario=user, nome=nome, email=email, endereco_entrega=endereco_entrega, valor_pago=valor_pago)
+            pedido.save()
+
+            # Adicionando itens ao pedido
+            
+            # Obtém o ID do pedido
+            pedido_id = pedido.pk
+
+            # Obtém os produtos do carrinho
+            for produto in carrinho_produtos():
+                produto_id = produto.id
+                # Obtém o preço
+                preco = produto.preco
+
+                # Obtém a quantidade
+                for key, value in quantidades().items():
+                    if int(key) == produto.id:
+                        itens_pedido = ItensPedido(pedido_id=pedido_id, produtos_id=produto_id, usuario=user, quantidade=value, preco=preco)
+                        itens_pedido.save()
+
+            # Deleta o carrinho após o pedido ser enviado
+            for key in list(request.session.keys()):
+                if key == "session_key":
+                    # Deleta a chave
+                    del request.session[key]
+
+
+            messages.success(request, "Pedido enviado")
+            return redirect('home')
+
+        # Usuário não logado - Convidado
+        else:
+            pedido = Pedido(nome=nome, email=email, endereco_entrega=endereco_entrega, valor_pago=valor_pago)
+            pedido.save()
+
+
+            # Adicionando itens ao pedido
+            
+            # Obtém o ID do pedido
+            pedido_id = pedido.pk
+
+            # Obtém os produtos do carrinho
+            for produto in carrinho_produtos():
+                produto_id = produto.id
+                # Obtém o preço
+                preco = produto.preco
+
+                # Obtém a quantidade
+                for key, value in quantidades().items():
+                    if int(key) == produto.id:
+                        itens_pedido = ItensPedido(pedido_id=pedido_id, produtos_id=produto_id, quantidade=value, preco=preco)
+                        itens_pedido.save()
+
+             # Deleta o carrinho após o pedido ser enviado
+            for key in list(request.session.keys()):
+                if key == "session_key":
+                    # Deleta a chave
+                    del request.session[key]
+
+
+            
+            messages.success(request, "Pedido enviado")
+            return redirect('home')
+
+    else:
+        messages.success(request, "Acesso Negado")
+        return redirect('home')
+
+
+def pagamento_info(request):
+    if request.POST:
+        # Obtém o carrinho
+        carrinho = Carrinho(request)
+        carrinho_produtos = carrinho.get_produtos
+        quantidades = carrinho.get_quantidades
+        total = carrinho.total()
+
+        # Cria uma sessão com as informações de envio
+        minha_entrega = request.POST
+        request.session['minha_entrega'] = minha_entrega
+
         # Verifica se o usuario está autenticado
         if request.user.is_authenticated:
-            # Obtem o formuário de cobrança
+            # Obtém o formuário de cobrança
             pagamento_form = PagamentoForm()
             return render(request, "pagamento/pagamento_info.html", {"carrinho_produtos":carrinho_produtos, "quantidades":quantidades, "total":total, "entrega_info":request.POST, "pagamento_form":pagamento_form })
         else:
             # Usuário não autenticado
-            # Obtem o formuário de cobrança
+            # Obtém o formuário de cobrança
             pagamento_form = PagamentoForm()
             return render(request, "pagamento/pagamento_info.html", {"carrinho_produtos":carrinho_produtos, "quantidades":quantidades, "total":total, "entrega_info":request.POST, "pagamento_form":pagamento_form })
 

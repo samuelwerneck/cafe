@@ -71,13 +71,16 @@
                           Informações de Pagamento
                         </div>
                         <div class="card-body">
-                            {{ pagamento_form.as_p }}
+                            <form method="POST" action="{% url 'processa_pedido' %}">
+                                {% csrf_token %}
+                                {{ pagamento_form.as_p }}
                             
                         </div>
                     </div>
                     <br/><br/>
 
-                    <a href="#" class="btn btn-secondary">Pagar!</a>
+                    <button type="submit" class="btn btn-secondary">Pagar!</button>
+                            </form>
                     <br/><br/>
 
                 </div>    

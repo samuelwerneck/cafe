@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from store.models import Produto
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
+from django.dispatch import receiver
+import datetime
 
 class EnderecoEntrega(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -38,9 +40,21 @@ class Pedido(models.Model):
     endereco_entrega = models.TextField(max_length=1000)
     valor_pago = models.DecimalField(max_digits=7, decimal_places=2)
     data_pedido = models.DateTimeField(auto_now_add=True)
+    enviado = models.BooleanField(default=False)
+    data_enviado = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return f'Pedido - {str(self.id)}'
+
+
+# Adiciona data de envio automaticamente
+@receiver(pre_save, sender=Pedido)
+def set_data_enviado_on_update(sender, instance, **kwargs):
+     if instance.pk:
+          agora = datetime.datetime.now()
+          obj = sender._default_manager.get(pk=instance.pk)
+          if instance.enviado and not obj.enviado:
+               instance.data_enviado = agora
 
 
 # Cria um modelo de itens no pedido
