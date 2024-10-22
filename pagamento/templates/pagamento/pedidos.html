@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Header-->
+        <div class="container">
+        	<div class="row">
+        		<center>
+        			<div class="col-8">
+        				<br/><br/>
+
+                        <div class="card">
+                            <div class="card-header">
+                              Pedido: #{{ pedido.id }} - R$ {{ pedido.valor_pago }}
+                            </div>
+                            <div class="card-body">
+                              E-mail: {{ pedido.email }}<br/>
+                                {% if pedido.data_enviado %}
+                                    Data de envio: {{ pedido.data_enviado }}
+                                {% else %}
+                                    Data do pedido: {{ pedido.data_pedido }}
+                                {% endif %}
+                                <br/>
+                                {{ pedido.nome }}<br/>
+                                <pre>{{ pedido.endereco_entrega }}</pre>
+                                <br/>
+                              Itens:
+                              {% for item in itens %}
+                                {{ item.produtos }} - {{ item.quantidade }} - R$ {{ item.preco }}<br/>
+                              {% endfor %}
+
+                            </div>
+                          </div>
+
+                            
+        				<br/><br/>
+                        <a href="{% url 'home' %}" class="btn btn-primary">Voltar???</a>
+        			</div>
+        		</center>
+        	</div>
+        </div>
+
+{% endblock %}
