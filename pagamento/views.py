@@ -7,6 +7,32 @@ from django.contrib import messages
 from store.models import Produto
 
 
+def pedidos(request, pk):
+    if request.user.is_authenticated and request.user.is_superuser:
+        # Obtém o número do pedido
+        pedido = Pedido.objects.get(id=pk)
+        itens = ItensPedido.objects.filter(pedido=pk)
+        return render(request, 'pagamento/pedidos.html', {"pedido":pedido, "itens":itens})
+
+
+def painel_nao_enviados(request):
+    if request.user.is_authenticated and request.user.is_superuser:
+        pedidos = Pedido.objects.filter(enviado=False)
+        return render(request, "pagamento/painel_nao_enviados.html", {"pedidos":pedidos})
+    else:
+        messages.success(request, "Acesso negado")
+        return redirect('home')
+
+
+def painel_enviados(request):
+    if request.user.is_authenticated and request.user.is_superuser:
+        pedidos = Pedido.objects.filter(enviado=True)
+        return render(request, "pagamento/painel_enviados.html", {"pedidos":pedidos})
+    else:
+        messages.success(request, "Acesso negado")
+        return redirect('home')
+
+
 def processa_pedido(request):
     if request.POST:
         # Obtém o carrinho
