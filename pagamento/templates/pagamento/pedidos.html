@@ -27,13 +27,29 @@
                               {% for item in itens %}
                                 {{ item.produtos }} - {{ item.quantidade }} - R$ {{ item.preco }}<br/>
                               {% endfor %}
+                              <br/><br/>
+                              {% if not pedido.enviado %}
+                              <form method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="status_envio" value="True">
+                                <button type="submit" class="btn btn-success">Marcar como Enviado!</button>
+                              </form>
+
+                              {% else %}
+                              <form method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="status_envio" value="False">
+                                <button type="submit" class="btn btn-danger">Marcar como Não Enviado!</button>
+                              </form>
+
+                              {% endif %}                              
 
                             </div>
                           </div>
 
                             
         				<br/><br/>
-                        <a href="{% url 'home' %}" class="btn btn-primary">Voltar???</a>
+
         			</div>
         		</center>
         	</div>

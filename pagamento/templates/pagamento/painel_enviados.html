@@ -15,7 +15,7 @@
                                     <th scope="col">Pedido</th>
                                     <th scope="col">Preço</th>
                                     <th scope="col">E-mail do cliente</th>
-                                    <th scope="col">Data do Pedido</th>
+                                    <th scope="col">Data de Envio</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -24,7 +24,7 @@
                                     <td><a href="{% url 'pedidos' item.id %}">{{ item.id }}</a></td>
                                     <td>R$ {{ item.valor_pago }}</td>
                                     <td>{{ item.email }}</td>
-                                    <td>{{ item.data_pedido }}</td>
+                                    <td>{{ item.data_enviado }}</td>
                                   </tr>
                                 {% endfor %}
                                   

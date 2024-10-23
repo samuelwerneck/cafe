@@ -4,7 +4,8 @@ from pagamento.forms import EntregaForm, PagamentoForm
 from pagamento.models import EnderecoEntrega, Pedido, ItensPedido
 from django.contrib.auth.models import User
 from django.contrib import messages
-from store.models import Produto
+from store.models import Produto, Perfil
+import datetime
 
 
 def pedidos(request, pk):
@@ -12,6 +13,23 @@ def pedidos(request, pk):
         # Obtém o número do pedido
         pedido = Pedido.objects.get(id=pk)
         itens = ItensPedido.objects.filter(pedido=pk)
+
+        # Botões de atualização na tela do pedido, para marcar se o pedido foi enviado ou não
+        if request.POST:
+            status = request.POST['status_envio']
+            if status == "True":
+                pedido = Pedido.objects.filter(id=pk)
+                now = datetime.datetime.now()
+                pedido.update(enviado=True, data_enviado=now)
+                messages.success(request, "Status do envio atualizado")
+                return redirect('painel_nao_enviados')
+            else:
+                pedido = Pedido.objects.filter(id=pk)
+                pedido.update(enviado=False)
+                messages.success(request, "Status do envio atualizado")
+                return redirect('painel_enviados')
+
+
         return render(request, 'pagamento/pedidos.html', {"pedido":pedido, "itens":itens})
 
 
@@ -81,6 +99,11 @@ def processa_pedido(request):
                 if key == "session_key":
                     # Deleta a chave
                     del request.session[key]
+            
+            # Deleta o carrinho do banco de dados (store/models/Perfil/carrinho_salvo)
+            current_user = Perfil.objects.filter(usuario__id=request.user.id)
+            current_user.update(carrinho_salvo="")
+
 
 
             messages.success(request, "Pedido enviado")
