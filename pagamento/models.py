@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from store.models import Produto
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
+from django.core.validators import RegexValidator
 import datetime
 
 class EnderecoEntrega(models.Model):
@@ -13,7 +14,7 @@ class EnderecoEntrega(models.Model):
     ent_complemento = models.CharField(max_length=200, null=True, blank=True)
     ent_cidade = models.CharField(max_length=200)
     ent_estado = models.CharField(max_length=200, null=True, blank=True)
-    ent_cep = models.CharField(max_length=200, null=True, blank=True)
+    ent_cep = models.CharField(max_length=9, validators=[RegexValidator(r'^\d{5}-\d{3}$', message='ATENÇÃO! CEP deve estar no formato XXXXX-XXX.')], null=True, blank=True)
     ent_pais = models.CharField(max_length=200)
 
     #Não colocar endereço no plural no DJango

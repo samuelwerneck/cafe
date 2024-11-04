@@ -2,11 +2,11 @@
 {% block content %}
 
 <!-- Header-->
-        <header class="bg-dark py-5">
+        <header class="bg-primary py-3">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Atualiza perfil</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">Atualiza perfil do usuário</p>
+                    <h1 class="display-4 fw-bolder">Informações da Conta</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Atualize as informações da sua conta</p>
                 </div>
             </div>
         </header>
@@ -22,15 +22,15 @@
     {% csrf_token %}
 
     {{ user_form.as_p }}  
-    <br/><br/>
-    <button type="submit" class="btn btn-secondary">
-        Atualiza perfil
+    <br/>
+    <button type="submit" class="btn btn-success">
+        Salvar
     </button>
 </form>
 
 <br/><br/>
 
-<a href="{% url 'atualiza_senha' %}" class="btn btn-secondary">Atualiza Senha</a>
+<a href="{% url 'atualiza_senha' %}" class="btn btn-secondary">Clique aqui para mudar a senha</a>
 
 <br/><br/>
 <br/><br/>

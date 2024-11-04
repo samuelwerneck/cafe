@@ -2,7 +2,7 @@
 
 {% block content %}
         <!-- Header-->
-        <header class="bg-dark py-5">
+        <header class="bg-primary py-3">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
                     <h1 class="display-4 fw-bolder">Pagamento</h1>
@@ -58,7 +58,7 @@
                             Cidade: {{ entrega_info.ent_cidade }}<br/>
                             Estado: {{ entrega_info.ent_estado }}<br/>
                             CEP: {{ entrega_info.ent_cep }}<br/>
-                            País: {{ entrega_info.ent_pais }}<br/>
+                            <!-- País: {{ entrega_info.ent_pais }}<br/> -->
                             <br/>
                             <a href="{% url 'checkout' %}" class="btn btn-outline-secondary">Alterar endereço</a>
 
@@ -79,7 +79,7 @@
                     </div>
                     <br/><br/>
 
-                    <button type="submit" class="btn btn-secondary">Pagar!</button>
+                    <button type="submit" class="btn btn-success">Pagar!</button>
                             </form>
                     <br/><br/>
 

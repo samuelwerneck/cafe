@@ -2,11 +2,11 @@
 {% block content %}
 
 <!-- Header-->
-        <header class="bg-dark py-5">
+        <header class="bg-primary py-3">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Login</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">Login to your account</p>
+                    <h1 class="display-4 fw-bolder">Acessar</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Acesse sua conta</p>
                 </div>
             </div>
         </header>
@@ -22,16 +22,16 @@
     {% csrf_token %}
   <div class="mb-3">
     
-    <input type="text" class="form-control" name="username" placeholder="Enter username">
+    <input type="text" class="form-control" name="username" placeholder="Digite seu nome de usuário">
     
   </div>
   <div class="mb-3">
     
-    <input type="password" class="form-control" name="password" placeholder="Enter password">
+    <input type="password" class="form-control" name="password" placeholder="Digite sua senha">
   </div>
   <br/><br/>
   
-  <button type="submit" class="btn btn-secondary">Login</button>
+  <button type="submit" class="btn btn-success">Entrar</button>
 </form>
     <br/><br/>
     <br/><br/>  

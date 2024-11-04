@@ -2,17 +2,18 @@ from django.db import models
 import datetime
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from django.core.validators import RegexValidator
 
 class Perfil(models.Model):
 	usuario = models.OneToOneField(User,on_delete=models.CASCADE)
 	data_modificado= models.DateTimeField(User, auto_now=True)
 	fone = models.CharField(max_length=20, blank=True)
-	endereco1 = models.CharField(max_length=200, blank=True)
-	endereco2 = models.CharField(max_length=200, blank=True)
+	endereco = models.CharField(max_length=200, blank=True)
+	complemento = models.CharField(max_length=200, blank=True)
 	cidade = models.CharField(max_length=200, blank=True)
 	estado = models.CharField(max_length=200, blank=True)
-	cep = models.CharField(max_length=200, blank=True)
-	pais = models.CharField(max_length=200, blank=True)
+	cep = models.CharField(max_length=9, validators=[RegexValidator(r'^\d{5}-\d{3}$', message='ATENÇÃO! CEP deve estar no formato XXXXX-XXX.')], null=True, blank=True)
+	#pais = models.CharField(max_length=200, blank=True)
 	carrinho_salvo = models.CharField(max_length=200, blank=True, null=True)
 
 	def __str__(self):

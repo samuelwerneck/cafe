@@ -2,11 +2,11 @@
 {% block content %}
 
 <!-- Header-->
-        <header class="bg-dark py-5">
+        <header class="bg-primary py-3">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Atualiza informações</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">Atualiza informações do usuário</p>
+                    <h1 class="display-4 fw-bolder">Seus endereços</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Atualize seus endereços abaixo</p>
                 </div>
             </div>
         </header>
@@ -16,14 +16,14 @@
                 
                     <div class="col-md-6 offset-md-3">
                         <br/><br/>
-                        <strong>Informações de Cobrança</strong>
+                        <strong>Suas Informações de Cobrança</strong>
                         <br/><br/>  
                         <form method="POST" action="{% url 'atualiza_info' %}">
                             {% csrf_token %}
 
                             {{ form.as_p }}  
                             <br/><br/>
-                            <strong>Informações de Entrega</strong>
+                            <strong>Suas Informações de Entrega</strong>
                             <br/><br/>
                             {{ entrega_form.as_p }}
 
