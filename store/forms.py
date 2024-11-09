@@ -10,7 +10,6 @@ class InfoUsuario_Form(forms.ModelForm):
 	cidade = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Cidade'}), required=False)
 	estado = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Estado'}), required=False)
 	cep = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'CEP'}), required=False)
-	#pais = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'País'}), required=False)
 
 	class Meta:
 		model = Perfil

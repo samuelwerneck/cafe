@@ -1,8 +1,12 @@
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Carregar variáveis de ambiente
+load_dotenv()
 
 
 # Quick-start development settings - unsuitable for production
@@ -15,6 +19,7 @@ SECRET_KEY = 'django-insecure-_afsm!%xcv8c3z(_g%(g=_s(rol)w-fxdbeih@v+h&7p^!lz5f
 DEBUG = True
 
 ALLOWED_HOSTS = []
+CSRF_TRUSTED_ORIGINS = []
 
 
 # Application definition
@@ -29,6 +34,7 @@ INSTALLED_APPS = [
     'store',
     'carrinho',
     'pagamento',
+    'whitenoise.runserver_nostatic',
 ]
 
 MIDDLEWARE = [
@@ -39,6 +45,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'cafe.urls'
@@ -68,8 +75,14 @@ WSGI_APPLICATION = 'cafe.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'cafe',
+        'USER': 'postgres',
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': '168.138.131.27',
+        'PORT': '5432',
     }
 }
 
@@ -110,6 +123,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = ['static/']
+
+# Conteúdo estático
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

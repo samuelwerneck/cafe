@@ -15,7 +15,6 @@ class EnderecoEntrega(models.Model):
     ent_cidade = models.CharField(max_length=200)
     ent_estado = models.CharField(max_length=200, null=True, blank=True)
     ent_cep = models.CharField(max_length=9, validators=[RegexValidator(r'^\d{5}-\d{3}$', message='ATENÇÃO! CEP deve estar no formato XXXXX-XXX.')], null=True, blank=True)
-    ent_pais = models.CharField(max_length=200)
 
     #Não colocar endereço no plural no DJango
     class Meta:

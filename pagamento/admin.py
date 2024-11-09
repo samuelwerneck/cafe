@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import EnderecoEntrega, Pedido, ItensPedido
-from django.contrib.auth.models import User
 
 # Registar o modelo no painel de admin no Django
 admin.site.register(EnderecoEntrega)

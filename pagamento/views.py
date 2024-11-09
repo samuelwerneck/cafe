@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from carrinho.carrinho import Carrinho
 from pagamento.forms import EntregaForm, PagamentoForm
 from pagamento.models import EnderecoEntrega, Pedido, ItensPedido
-from django.contrib.auth.models import User
 from django.contrib import messages
 from store.models import Produto, Perfil
 import datetime

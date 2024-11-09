@@ -3,11 +3,9 @@ from .models import Produto, Perfil
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
 from .forms import SignUpForm, UpdateUserForm, AtualizarSenha, InfoUsuario_Form
 from pagamento.forms import EntregaForm
 from pagamento.models import EnderecoEntrega
-from django import forms
 from django.db.models import Q
 import json
 from carrinho.carrinho import Carrinho

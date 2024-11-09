@@ -13,7 +13,6 @@ class Perfil(models.Model):
 	cidade = models.CharField(max_length=200, blank=True)
 	estado = models.CharField(max_length=200, blank=True)
 	cep = models.CharField(max_length=9, validators=[RegexValidator(r'^\d{5}-\d{3}$', message='ATENÇÃO! CEP deve estar no formato XXXXX-XXX.')], null=True, blank=True)
-	#pais = models.CharField(max_length=200, blank=True)
 	carrinho_salvo = models.CharField(max_length=200, blank=True, null=True)
 
 	def __str__(self):
