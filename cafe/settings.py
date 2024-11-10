@@ -18,8 +18,8 @@ SECRET_KEY = 'django-insecure-_afsm!%xcv8c3z(_g%(g=_s(rol)w-fxdbeih@v+h&7p^!lz5f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['168.138.131.27']
-CSRF_TRUSTED_ORIGINS = []
+ALLOWED_HOSTS = ['168.138.131.27','pitcafe.fr.to']
+CSRF_TRUSTED_ORIGINS = ['http://pitcafe.fr.to', 'https://pitcafe.fr.to']
 
 
 # Application definition
