@@ -13,7 +13,7 @@ class PedidoItemInline(admin.StackedInline):
 
 class AdminPedido(admin.ModelAdmin):
     model = Pedido
-    readonly_fields = ["data_pedido"]
+    #readonly_fields = ["data_pedido"]
     fields = ["usuario", "nome", "email", "endereco_entrega", "valor_pago", "data_pedido", "enviado", "data_enviado"]
     inlines = [PedidoItemInline]
 
