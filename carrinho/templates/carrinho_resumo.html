@@ -11,7 +11,7 @@
             </div>
         </header>
         <br/>
-        <a href="{% url 'home' %}" class="btn btn-secondary">Continuar comprando</a>
+        
         <div class="container">
         {% if carrinho_produtos %}
 
@@ -19,6 +19,7 @@
             {% for produto in carrinho_produtos %}
 
                 <div class="card mb-3">
+                  <a href="{% url 'home' %}" class="btn btn-secondary">Continuar comprando</a>                  
                     <div class="row g-0">
                     <div class="col-md-4">
                         <img src="{{ produto.imagem.url }}" class="img-fluid rounded-start" alt="...">
