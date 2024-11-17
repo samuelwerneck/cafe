@@ -15,8 +15,9 @@
         <div class="container">
         {% if carrinho_produtos %}
 
-            <a href="{% url 'home' %}">Continuar comprando</a><br/><br/>
-
+            <div style="text-align: right;">
+              <a href="{% url 'home' %}">Continuar comprando</a><br/><br/>
+            </div>
 
             {% for produto in carrinho_produtos %}
 
@@ -53,7 +54,7 @@
                                     </select>
                                   </div>
                               </div>
-                              <br/><br/>
+                              <br/>
                             <button type="button" data-index="{{ produto.id }}" class="btn btn-secondary atualiza-carrinho">Atualizar</button>
                             <button type="button" data-index="{{ produto.id }}" class="btn btn-danger deleta-item">Remover</button>
                         
