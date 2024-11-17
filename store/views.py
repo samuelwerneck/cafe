@@ -127,12 +127,10 @@ def login_user(request):
 					carrinho.db_add(produto=key, quantidade=value)
 
 
-
-
-			messages.success(request, ("You have been logged in"))
+			messages.success(request, ("Você acessou sua conta!"))
 			return redirect('home')
 		else:
-			messages.success(request, ("There was an error"))
+			messages.success(request, ("Algo deu errado. Tente novamente"))
 			return redirect('login')
 
 	else:
@@ -141,7 +139,7 @@ def login_user(request):
 
 def logout_user(request):
 	logout(request)
-	messages.success(request, ("You have been logged out!"))
+	messages.success(request, ("Você saiu!"))
 	return redirect('home')
 
 
@@ -156,10 +154,10 @@ def register_user(request):
 			# Log in user
 			user = authenticate(username=username, password=password)
 			login(request, user)
-			messages.success(request, ("You have registered successfully"))
+			messages.success(request, ("Você se registrou com sucesso"))
 			return redirect('atualiza_info')
 		else:
-			messages.success(request, ("Oops. Something went wrong."))
+			messages.success(request, ("Algo deu errado. Tente novamente"))
 			return redirect('register')
 	else:
 		return render(request, 'register.html', {'form':form})
