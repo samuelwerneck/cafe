@@ -26,11 +26,13 @@ class AtualizarSenha(SetPasswordForm):
 
 		self.fields['new_password1'].widget.attrs['class'] = 'form-control'
 		self.fields['new_password1'].widget.attrs['placeholder'] = 'Senha'
+		self.fields['new_password1'].widget.attrs['data-toggle'] = 'new_password1'
 		self.fields['new_password1'].label = ''
 		self.fields['new_password1'].help_text = '<ul class="form-text text-muted small"><li>Sua senha não pode ser parecida com outros dados pessoais.</li><li>Sua senha deve possuir pelo menos 8 caracteres.</li><li>Não pode ser uma senha usada com freqência</li><li>Não pode ter apenas números.</li></ul>'
 
 		self.fields['new_password2'].widget.attrs['class'] = 'form-control'
 		self.fields['new_password2'].widget.attrs['placeholder'] = 'Confirme a Senha'
+		self.fields['new_password2'].widget.attrs['data-toggle'] = 'new_password2'
 		self.fields['new_password2'].label = ''
 		self.fields['new_password2'].help_text = '<span class="form-text text-muted"><small>Digite a mesma senha</small></span>'
 
