@@ -73,7 +73,10 @@
 
         <br/><br/><br/>
         {% else %}
-                Carrinho vazio
+                <div style="text-align: center;">
+                  Seu carrinho está vazio<br/><br/>
+                  <a href="{% url 'home' %}" class="btn btn-secondary">Veja nosso produtos!</a>
+                </div>
                 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
         {% endif %}
             
