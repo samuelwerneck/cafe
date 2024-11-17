@@ -11,6 +11,7 @@
             </div>
         </header>
         <br/>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Continuar comprando</a>
         <div class="container">
         {% if carrinho_produtos %}
 
@@ -50,9 +51,7 @@
                                     </select>
                                   </div>
                               </div>
-
-                            <a href="{% url 'home' %}" class="btn btn-secondary">Início</a>
-
+                              <br/><br/>
                             <button type="button" data-index="{{ produto.id }}" class="btn btn-secondary atualiza-carrinho">Atualizar</button>
                             <button type="button" data-index="{{ produto.id }}" class="btn btn-danger deleta-item">Remover</button>
                         
