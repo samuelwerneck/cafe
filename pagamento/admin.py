@@ -13,8 +13,8 @@ class PedidoItemInline(admin.StackedInline):
 
 class AdminPedido(admin.ModelAdmin):
     model = Pedido
-    #readonly_fields = ["data_pedido"]
-    fields = ["usuario", "nome", "email", "endereco_entrega", "valor_pago", "data_pedido", "enviado", "data_enviado"]
+    readonly_fields = ["data_pedido"]
+    fields = ["usuario", "nome", "email", "endereco_entrega", "valor_pago", "enviado", "data_enviado"]
     inlines = [PedidoItemInline]
 
 # "Desregistra" o modelo de Pedido
